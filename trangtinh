@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: linear-gradient(to right, #3498db, #2ecc71);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        #calculator {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #logo {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="calculator">
+    <img id="logo" src="https://samibk.click/wp-content/plugins/samiweb/img/sami_hust_branding_2023.svg" alt="SAMI HUST Logo">
+
+    <h2>Grade Calculator</h2>
+
+    <label for="DiemLan1">Điểm thi định kỳ lần 1:</label>
+    <input type="number" id="DiemLan1" placeholder="Nhập điểm...">
+
+    <label for="DiemLan2">Điểm thi định kỳ lần 2:</label>
+    <input type="number" id="DiemLan2" placeholder="Nhập điểm...">
+
+    <label for="DiemThuong">Điểm thưởng:</label>
+    <input type="number" id="DiemThuong" placeholder="Nhập điểm...">
+
+    <label for="DiemCuoiKi">Điểm cuối kì:</label>
+    <input type="number" id="DiemCuoiKi" placeholder="Nhập điểm...">
+
+    <button onclick="tinhDiem()">Tính điểm</button>
+    <button onclick="resetForm()">Nhập lại</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    function LamTronDiem(a) {
+        let b;
+        if (a > Math.round(a)) {
+            b = Math.round(a) + 0.5;
+        } else if (Math.round(a) - a < 0.5) {
+            b = Math.round(a);
+        } else {
+            b = Math.round(a) - 0.5;
+        }
+        return b;
+    }
+
+    function ChuyenDiem(a) {
+        if (a < 0) {
+            return "ERROR";
+        }
+        if (a < 4 && a >= 0) {
+            return "F, bạn đã tạch môn :))";
+        }
+        if (a >= 4 && a < 5) {
+            return "D, GPA của bạn là 1.0";
+        }
+        if (a >= 5 && a < 5.5) {
+            return "D+, GPA của bạn là 1.5";
+        }
+        if (a >= 5.5 && a < 6.5) {
+            return "C, GPA của bạn là 2.0";
+        }
+        if (a >= 6.5 && a < 7) {
+            return "C+, GPA của bạn là 2.5";
+        }
+        if (a >= 7 && a < 8) {
+            return "B, GPA của bạn là 3.0";
+        }
+        if (a >= 8 && a < 8.5) {
+            return "B+, GPA của bạn là 3.5";
+        }
+        if (a >= 8.5 && a < 9.5) {
+            return "A, GPA của bạn là 4.0";
+        }
+        if (a >= 9.5 && a <= 10) {
+            return "A+, GPA của bạn là 4.0+";
+        }
+        if (a > 10) {
+            return "ERROR";
+        }
+    }
+
+    function tinhDiem() {
+        let DiemLan1 = parseFloat(document.getElementById("DiemLan1").value);
+        let DiemLan2 = parseFloat(document.getElementById("DiemLan2").value);
+        let DiemThuong = parseFloat(document.getElementById("DiemThuong").value);
+        let DiemCuoiKi = parseFloat(document.getElementById("DiemCuoiKi").value);
+
+        let a = 4 + (DiemLan1 + DiemLan2) / 3 * 0.6 + DiemThuong * 0.6;
+        let DiemDinhKi = LamTronDiem(a);
+        let DHP = 0.5 * DiemDinhKi + 0.5 * DiemCuoiKi;
+
+        let resultElement = document.getElementById('result');
+        resultElement.innerHTML = `Điểm học phần của bạn: ${DHP.toFixed(2)}, Điểm chữ là ${ChuyenDiem(DHP)}`;
+    }
+
+    function resetForm() {
+        document.getElementById("DiemLan1").value = "";
+        document.getElementById("DiemLan2").value = "";
+        document.getElementById("DiemThuong").value = "";
+        document.getElementById("DiemCuoiKi").value = "";
+        document.getElementById("result").innerHTML = "";
+    }
+</script>
+
+</body>
+</html>
